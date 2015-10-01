@@ -3,7 +3,7 @@ MAINTAINER Pavel Odvody <podvody@redhat.com>
 
 RUN dnf install -y automake cmake curl-devel check-devel\
                    dnf-plugins-core gcc git glib2-devel gpgme-devel\
-                    make openssl-devel which xz\
+                   libxml2-devel  make openssl-devel which xz\
  && dnf -y builddep rpm libsolv python3\
  && rm -rf /var/cache/dnf/*
 
@@ -20,7 +20,10 @@ RUN git clone https://github.com/rpm-software-management/rpm.git\
   && cmake -DPYTHON_DESIRED="3" ../ && make)\
  && git clone https://github.com/rpm-software-management/librepo.git\
   && (cd librepo/ && mkdir build && cd build/\
-  && cmake -DPYTHON_DESIRED="3" ../ && make librepo && make install)\
+  && cmake -DPYTHON_DESIRED="3" ../ && make librepo)\
+ && git clone https://github.com/rpm-software-management/libcomps.git\
+  && (cd libcomps/libcomps/\
+  && cmake -DPYTHON_DESIRED="3" && make libcomps)\
  && git clone https://github.com/python/cpython.git\
   && (cd cpython/ && git checkout 3.4\
   && ./configure --enable-shared && make) 
